@@ -1,0 +1,57 @@
+CREATE TABLE empleados (
+    id_empleado SERIAL PRIMARY KEY,
+    nombres VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    dui VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20) UNIQUE NOT NULL,
+    pais VARCHAR(50),
+    departamento VARCHAR(50),
+    municipio VARCHAR(50),
+    detalle_direccion VARCHAR(255),
+    puesto VARCHAR(100),
+    area_departamento VARCHAR(100),
+    fecha_contratacion DATE,
+    salario_monto NUMERIC(10,2),
+    salario_moneda VARCHAR(10) DEFAULT 'USD',
+    estado VARCHAR(20) DEFAULT 'activo',
+    fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+INSERT INTO empleados (
+    nombres,
+    apellidos,
+    dui,
+    email,
+    telefono,
+    pais,
+    departamento,
+    municipio,
+    detalle_direccion,
+    puesto,
+    area_departamento,
+    fecha_contratacion,
+    salario_monto,
+    salario_moneda,
+    estado,
+    fecha_registro
+) VALUES (
+    'Douglas Isaac',
+    'Barrera Magaña',
+    '01234567-8',
+    'douglas.barrera@cumulonimbus.com',
+    '+50378901234',
+    'El Salvador',
+    'San Salvador',
+    'Santa Tecla',
+    'Colonia Escalón, Calle 5 #123',
+    'Ingeniero DevOps',
+    'Infraestructura',
+    '2023-04-15',
+    1800.00,
+    'USD',
+    'activo',
+    '2025-10-05T14:32:10Z'
+);
+
+SELECT * FROM empleados;

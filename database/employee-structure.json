@@ -1,0 +1,27 @@
+{
+  "empleado": {
+    "id_empleado": "1",
+    "nombres": "Douglas Isaac",
+    "apellidos": "Barrera Magaña",
+    "dui": "01234567-8",
+    "contacto": {
+      "email": "douglas.barrera@cumulonimbus.com",
+      "telefono": "+50378901234"
+    },
+    "direccion": {
+      "pais": "El Salvador",
+      "departamento": "San Salvador",
+      "municipio": "Santa Tecla",
+      "detalle": "Colonia Escalón, Calle 5 #123"
+    },
+    "puesto": "Ingeniero DevOps",
+    "departamento": "Infraestructura",
+    "fecha_contratacion": "2023-04-15",
+    "salario": {
+      "moneda": "USD",
+      "monto": 1800.00
+    },
+    "estado": "activo",
+    "fecha_registro": "2025-10-05T14:32:10Z"
+  }
+}
