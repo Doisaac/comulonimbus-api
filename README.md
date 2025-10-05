@@ -15,6 +15,11 @@ npm install -g pnpm@latest-10
 
 Crear contenedor con base de datos en postgres
 
-```
+```bash
 docker run --name cumulonimbus-db -v cumulonimbus-volume:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=cumulonimbus-db -d postgres
+```
+
+Ejecutar la API en modo desarrollo:
+```bash
+pnpm dev
 ```
