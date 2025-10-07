@@ -5,23 +5,31 @@ const router = Router()
 
 // Obtener todos los empleados
 router.get("/empleados", async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM empleados")
-  res.json(rows)
+  try {
+    const { rows } = await pool.query("SELECT * FROM empleados")
+    res.json(rows)
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener los empleados" })
+  }
 })
 
 // Obtener un empleado específico
 router.get("/empleados/:id", async (req, res) => {
-  const { id } = req.params
-  const { rows } = await pool.query(
-    "SELECT * FROM empleados WHERE id_empleado = $1",
-    [id]
-  )
+  try {
+    const { id } = req.params
+    const { rows } = await pool.query(
+      "SELECT * FROM empleados WHERE id_empleado = $1",
+      [id]
+    )
 
-  if (rows.length === 0) {
-    return res.status(404).json({ mensaje: "Empleado no encontrado" })
+    if (rows.length === 0) {
+      return res.status(404).json({ mensaje: "Empleado no encontrado" })
+    }
+
+    res.json(rows)
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener el empleado" })
   }
-
-  res.json(rows)
 })
 
 // Crear un nuevo empleado
@@ -43,22 +51,22 @@ router.post("/empleados", async (req, res) => {
     } = data
 
     // Validar que los campos obligatorios principales estén presentes
-    if (!contacto || !direccion || !salario) {
+    if (!nombres || !apellidos || !contacto) {
       return res.status(400).json({
         error:
-          "Estructura inválida. Faltan las secciones 'contacto', 'direccion' o 'salario'.",
+          "Estructura inválida. Faltan las secciones obligarias: 'nombres', 'apellidos' o 'contacto'.",
       })
     }
 
     // Extraer subcampos
-    const { email, telefono } = contacto
+    const { email, telefono } = contacto || {}
     const {
       pais,
       departamento,
       municipio,
       detalle: detalle_direccion,
-    } = direccion
-    const { monto: salario_monto, moneda: salario_moneda } = salario
+    } = direccion || {}
+    const { monto: salario_monto, moneda: salario_moneda } = salario || {}
 
     const camposObligatorios = {
       nombres,
@@ -66,21 +74,18 @@ router.post("/empleados", async (req, res) => {
       dui,
       email,
       telefono,
-      puesto,
-      area_departamento,
-      fecha_contratacion,
-      salario_monto,
     }
 
     // Validar que los campos obligatorios no estén vacíos
     for (const [campo, valor] of Object.entries(camposObligatorios)) {
-      if (!valor || valor === "") {
+      if (!valor || valor.trim() === "") {
         return res.status(400).json({
           error: `El campo '${campo}' es obligatorio o está vacío.`,
         })
       }
     }
 
+    // Insertar en la base de datos
     const { rows } = await pool.query(
       `INSERT INTO empleados (
       nombres,
@@ -118,6 +123,19 @@ router.post("/empleados", async (req, res) => {
         salario_moneda,
         estado,
       ]
+    )
+
+    console.log(
+      rows[0].fecha_registro.toLocaleDateString("sv-SE", {
+        timezone: "America/El_Salvador",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      })
     )
 
     // Éxito
