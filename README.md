@@ -1,4 +1,4 @@
-## API REST para Comulonimbus API
+## API REST para Cumulonimbus API
 
 ### 🔨 TECH
 
@@ -23,3 +23,4 @@ Ejecutar la API en modo desarrollo:
 ```bash
 pnpm dev
 ```
+
