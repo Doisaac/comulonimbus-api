@@ -125,19 +125,6 @@ router.post("/empleados", async (req, res) => {
       ]
     )
 
-    console.log(
-      rows[0].fecha_registro.toLocaleDateString("sv-SE", {
-        timezone: "America/El_Salvador",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      })
-    )
-
     // Éxito
     res.status(201).json({
       mensaje: "Empleado registrado correctamente.",
@@ -176,8 +163,6 @@ router.delete("/empleados/:id", async (req, res) => {
     "DELETE FROM empleados WHERE id_empleado = $1 RETURNING *",
     [id]
   )
-
-  console.log(rows)
 
   if (rowCount === 0) {
     return res.status(404).json({ mensaje: "Empleado no encontrado" })
