@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { pool } from "../db.js"
+import formatearEmpleado from "../helpers/formatearEmpleado.js"
 
 const router = Router()
 
@@ -7,7 +8,10 @@ const router = Router()
 router.get("/empleados", async (req, res) => {
   try {
     const { rows } = await pool.query("SELECT * FROM empleados")
-    res.json(rows)
+
+    const empleados = rows.map(formatearEmpleado)
+
+    res.json(empleados)
   } catch (error) {
     res.status(500).json({ error: "Error al obtener los empleados" })
   }
@@ -26,7 +30,9 @@ router.get("/empleados/:id", async (req, res) => {
       return res.status(404).json({ mensaje: "Empleado no encontrado" })
     }
 
-    res.json(rows)
+    const empleado = formatearEmpleado(rows[0])
+
+    res.json(empleado)
   } catch (error) {
     res.status(500).json({ error: "Error al obtener el empleado" })
   }
@@ -128,7 +134,7 @@ router.post("/empleados", async (req, res) => {
     // Éxito
     res.status(201).json({
       mensaje: "Empleado registrado correctamente.",
-      empleado: rows[0],
+      empleado: formatearEmpleado(rows[0]),
     })
   } catch (error) {
     // Error de formato JSON
@@ -232,7 +238,7 @@ router.put("/empleados/:id", async (req, res) => {
       return res.status(404).json({ mensaje: "Empleado no encontrado" })
     }
 
-    return res.json(rows[0])
+    return res.json(formatearEmpleado(rows[0]))
   } catch (error) {
     // Error de formato JSON
     if (error instanceof SyntaxError) {
@@ -262,7 +268,7 @@ router.delete("/empleados/:id", async (req, res) => {
     return res.status(404).json({ mensaje: "Empleado no encontrado" })
   }
 
-  res.json(rows)
+  res.json(formatearEmpleado(rows[0]))
 })
 
 export default router
