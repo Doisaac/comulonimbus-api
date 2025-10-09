@@ -152,8 +152,102 @@ router.post("/empleados", async (req, res) => {
 })
 
 // Editar un empleado específico
-router.put("/empleados/:id", (req, res) => {
-  res.send("Editando un empleado")
+router.put("/empleados/:id", async (req, res) => {
+  const { id } = req.params
+  const data = req.body
+
+  try {
+    const {
+      nombres,
+      apellidos,
+      dui,
+      contacto,
+      direccion,
+      puesto,
+      departamento: area_departamento,
+      fecha_contratacion,
+      salario,
+      estado,
+    } = data
+
+    // Validar que los campos obligatorios principales estén presentes
+    if (!nombres || !apellidos || !contacto || !dui) {
+      return res.status(400).json({
+        error:
+          "Estructura inválida. Faltan las secciones obligarias: 'nombres', 'apellidos', 'dui' o 'contacto'.",
+      })
+    }
+
+    // Extraer subcampos
+    const { email, telefono } = contacto || {}
+    const {
+      pais,
+      departamento,
+      municipio,
+      detalle: detalle_direccion,
+    } = direccion || {}
+    const { monto: salario_monto, moneda: salario_moneda } = salario || {}
+
+    const { rowCount, rows } = await pool.query(
+      `UPDATE empleados SET
+        nombres = $1,
+        apellidos = $2,
+        dui = $3,
+        email = $4,
+        telefono = $5,
+        pais = $6,
+        departamento = $7,
+        municipio = $8,
+        detalle_direccion = $9,
+        puesto = $10,
+        area_departamento = $11,
+        fecha_contratacion = $12,
+        salario_monto = $13,
+        salario_moneda = $14,
+        estado = $15
+      WHERE id_empleado = $16
+      RETURNING *`,
+      [
+        nombres,
+        apellidos,
+        dui,
+        email,
+        telefono,
+        pais,
+        departamento,
+        municipio,
+        detalle_direccion,
+        puesto,
+        area_departamento,
+        fecha_contratacion,
+        salario_monto,
+        salario_moneda,
+        estado,
+        id,
+      ]
+    )
+
+    // Id inválido
+    if (rowCount === 0) {
+      return res.status(404).json({ mensaje: "Empleado no encontrado" })
+    }
+
+    return res.json(rows[0])
+  } catch (error) {
+    // Error de formato JSON
+    if (error instanceof SyntaxError) {
+      return res.status(400).json({ error: "JSON mal formado." })
+    }
+
+    // Error de duplicado (PostgreSQL constraint violation)
+    if (error.code === "23505") {
+      return res.status(409).json({
+        error: "El DUI, email o teléfono ya existen en la base de datos.",
+      })
+    }
+
+    res.status(500).json({ mensaje: "Error interno del servidor" })
+  }
 })
 
 // Eliminar un empleado en específico
