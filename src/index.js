@@ -1,8 +1,10 @@
 import express from "express"
+import morgan from "morgan"
 import { PORT } from "./config.js"
 import employeesRoutes from "./routes/employees.routes.js"
 
 const app = express()
+app.use(morgan("dev"))
 app.use(express.json())
 
 // Middleware para manejar errores de JSON inválido
