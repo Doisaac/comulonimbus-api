@@ -1,10 +1,11 @@
 import pg from "pg"
+import { DB_USER, DB_HOST, DB_PASSWORD, DB_DATABASE, DB_PORT } from "./config.js"
 
 // Configuración de la conexión a la base de datos
 export const pool = new pg.Pool({
-  user: "admin",
-  host: "localhost",
-  password: "admin",
-  database: "cumulonimbus-db",
-  port: "5432",
+  user: DB_USER,
+  host: DB_HOST,
+  password: DB_PASSWORD,
+  database: DB_DATABASE,
+  port: DB_PORT,
 })
