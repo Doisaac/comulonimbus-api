@@ -1,0 +1,7 @@
+.env
+.git
+node_modules
+.DS_Store
+Dockerfile
+*.log
+pnpm-lock.yaml
