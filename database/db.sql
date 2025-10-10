@@ -51,7 +51,6 @@ INSERT INTO empleados (
     1800.00,
     'USD',
     'activo',
-    '2025-10-05T14:32:10Z'
 );
 
 SELECT * FROM empleados;
