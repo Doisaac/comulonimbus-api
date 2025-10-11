@@ -231,7 +231,10 @@ export const editEmpleado = async (req, res) => {
       return res.status(404).json({ mensaje: "Empleado no encontrado" })
     }
 
-    return res.json(formatearEmpleado(rows[0]))
+    return res.json({
+      mensaje: "Empleado editado correctamente",
+      empleado: formatearEmpleado(rows[0]),
+    })
   } catch (error) {
     // Error de formato JSON
     if (error instanceof SyntaxError) {
