@@ -22,7 +22,7 @@ services:
       - .env
     volumes:
       - cumulonimbus-volume:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
 
 volumes:
   cumulonimbus-volume:
-    external: true
