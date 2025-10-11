@@ -8,7 +8,7 @@ services:
     ports:
       - "${PORT}:${PORT}"
     env_file:
-      - .env
+      - .env.compose
 
   cumulonimbus_database:
     image: postgres:latest
@@ -19,7 +19,7 @@ services:
       start_period: 30s
       timeout: 10s
     env_file:
-      - .env
+      - .env.compose
     volumes:
       - cumulonimbus-volume:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d

@@ -41,12 +41,12 @@ pnpm install
 
 ### 🐘 Variables de entorno requeridas
 
-Crea un archivo .env con el siguiente contenido:
+Crea un archivo .env en la raíz del proyecto, con el siguiente contenido:
 
 ```bash
 # Configuración de la base de datos PostgreSQL
 DB_USER=admin
-DB_HOST=cumulonimbus_database
+DB_HOST=localhost
 DB_PASSWORD=admin
 DB_DATABASE=cumulonimbus-db
 DB_PORT=5432
@@ -73,6 +73,28 @@ pnpm dev
 ---
 
 # 🐳 Levantar entorno con Docker Compose — Cumulonimbus API
+
+## 🗒️ Crear archivo `.env.compose` en la raíz del proyecto
+
+Contenido (digitar la misma contraseña):
+
+```bash
+# Pool de conexión del servidor de la API
+DB_USER=admin
+DB_HOST=cumulonimbus_database
+DB_PASSWORD=
+DB_DATABASE=cumulonimbus-db
+DB_PORT=5432
+
+# Variable para el servidor de la API
+PORT=4000
+
+# Variables de entorno para el contenedor postgres
+POSTGRES_USER=admin 
+POSTGRES_PASSWORD=
+POSTGRES_DB=cumulonimbus-db 
+TZ=America/El_Salvador 
+```
 
 ## 🚀 Levantar los Servicios
 
