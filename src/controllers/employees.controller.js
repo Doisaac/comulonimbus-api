@@ -251,7 +251,7 @@ export const editEmpleado = async (req, res) => {
 
 export const deleteEmpleado = async (req, res) => {
   const { id } = req.params
-  const { rowCount, rows } = await pool.query(
+  const { rowCount } = await pool.query(
     "DELETE FROM empleados WHERE id_empleado = $1 RETURNING *",
     [id]
   )
@@ -260,5 +260,7 @@ export const deleteEmpleado = async (req, res) => {
     return res.status(404).json({ mensaje: "Empleado no encontrado" })
   }
 
-  res.json(formatearEmpleado(rows[0]))
+  res.json({
+    mensaje: "Empleado eliminado correctamente",
+  })
 }
