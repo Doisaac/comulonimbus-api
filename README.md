@@ -110,4 +110,71 @@ Para detener los servicios sin eliminar los volúmenes:
 
 ```bash
 docker compose stop
+
 ```
+# 📘 Operaciones CRUD con Thunder Client
+
+Antes de todo, asegúrate de tener instalado Thunder Client en Visual Studio Code y que los servicios esten en funcionamiento.
+
+## 📝 Operaciones CRUD
+
+### 1. 📋 Obtener Empleados (GET)
+1. Abre Thunder Client en Visual Studio Code.
+2. Haz clic en `New Request`.
+3. Selecciona el método `GET`.
+4. Ingresa la URL: `http://localhost:4000/empleados`.
+5. Haz clic en `Send`.
+
+### 2. ➕ Agregar un Empleado (POST)
+1. Abre Thunder Client en Visual Studio Code.
+2. Haz clic en `New Request`.
+3. Selecciona el método `POST`.
+4. Ingresa la URL: `http://localhost:4000/empleados`.
+5. Ve a la pestaña `Body` y selecciona `JSON`.
+6. Ingresa los datos del nuevo empleado en formato JSON, por ejemplo:
+    ```json
+    {
+    "nombres": "Douglas Isaac",
+    "apellidos": "Barrera Magaña",
+    "dui": "12345678-0",
+    "contacto": {
+      "email": "isaac.barrera@cumulonimbus.com",
+      "telefono": "+50370102233"
+    }
+    }
+    ```
+7. Haz clic en `Send`.
+
+### 3. 📝 Actualizar Información de un Empleado (PUT)
+1. Abre Thunder Client en Visual Studio Code.
+2. Haz clic en `New Request`.
+3. Selecciona el método `PUT`.
+4. Ingresa la URL: `http://localhost:4000/empleados/{id}` (reemplaza `{id}` con el ID del empleado que deseas editar).
+5. Ve a la pestaña `Body` y selecciona `JSON`.
+6. Ingresa los datos actualizados del empleado en formato JSON, por ejemplo:
+    ```json
+    {
+    "nombres": "Douglas Isaac",
+    "apellidos": "Barrera Magaña",
+    "dui": "12345678-0",
+    "contacto": {
+      "email": "isaac.barrera@cumulonimbus.com",
+      "telefono": "+50370102233"
+    }
+    }
+    ```
+7. Haz clic en `Send`.
+
+### 4. ❌ Eliminar un Empleado (DELETE)
+1. Abre Thunder Client en Visual Studio Code.
+2. Haz clic en `New Request`.
+3. Selecciona el método `DELETE`.
+4. Ingresa la URL: `http://localhost:4000/empleados/{id}` (reemplaza `{id}` con el ID del empleado que deseas eliminar).
+5. Haz clic en `Send`.
+
+### 5. 📋 Obtener un Empleado en especifico (GET)
+1. Abre Thunder Client en Visual Studio Code.
+2. Haz clic en `New Request`.
+3. Selecciona el método `GET`.
+4. Ingresa la URL: `http://localhost:4000/empleados/{id}`. (reemplaza `{id}` con el ID del empleado que deseas visualizar).
+5. Haz clic en `Send`.
