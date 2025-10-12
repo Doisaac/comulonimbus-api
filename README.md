@@ -101,7 +101,7 @@ TZ=America/El_Salvador
 Ejecuta el siguiente comando desde el directorio raíz del proyecto:
 
 ```bash
-docker compose up -d
+docker compose --env-file .env.compose up -d
 ```
 
 ## 🛠️ Detener los Contenedores
