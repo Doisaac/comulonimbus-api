@@ -1,28 +1,8 @@
 services:
   cumulonimbus_api:
     build: .
-    depends_on:
-      cumulonimbus_database:
-        condition: service_healthy
-        restart: true
+    image: cumulonimbus-api:latest
     ports:
       - "${PORT}:${PORT}"
     env_file:
-      - .env.compose
-
-  cumulonimbus_database:
-    image: postgres:latest
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_DATABASE}"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
-    env_file:
-      - .env.compose
-    volumes:
-      - cumulonimbus-volume:/var/lib/postgresql/data
-      - ./init:/docker-entrypoint-initdb.d
-
-volumes:
-  cumulonimbus-volume:
+      - .env
