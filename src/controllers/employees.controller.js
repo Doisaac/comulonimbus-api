@@ -1,5 +1,9 @@
 import { pool } from "../db.js"
 import formatearEmpleado from "../helpers/formatearEmpleado.js"
+import {
+  eliminarEmpleadoJSON,
+  subirEmpleadoJSON,
+} from "../services/storage.service.js"
 
 export const getEmpleados = async (req, res) => {
   try {
@@ -125,10 +129,29 @@ export const createEmpleado = async (req, res) => {
       ]
     )
 
+    const empleado = formatearEmpleado(rows[0])
+
+    // Subir JSON al bucket
+    let publicUrl = null
+    try {
+      publicUrl = await subirEmpleadoJSON(empleado)
+    } catch (err) {
+      console.error("Error subiendo JSON al bucket:", err.message)
+    }
+
+    // Si se subió bien, hacer UPDATE del bucket_url
+    if (publicUrl) {
+      await pool.query(
+        `UPDATE empleados SET bucket_url = $1 WHERE id_empleado = $2`,
+        [publicUrl, empleado.id_empleado]
+      )
+      empleado.bucket_url = publicUrl
+    }
+
     // Éxito
     res.status(201).json({
       mensaje: "Empleado registrado correctamente.",
-      empleado: formatearEmpleado(rows[0]),
+      empleado: empleado,
     })
   } catch (error) {
     // Error de formato JSON
@@ -231,9 +254,13 @@ export const editEmpleado = async (req, res) => {
       return res.status(404).json({ mensaje: "Empleado no encontrado" })
     }
 
+    const empleado = formatearEmpleado(rows[0])
+
+    subirEmpleadoJSON(empleado)
+
     return res.json({
       mensaje: "Empleado editado correctamente",
-      empleado: formatearEmpleado(rows[0]),
+      empleado: empleado,
     })
   } catch (error) {
     // Error de formato JSON
@@ -254,7 +281,7 @@ export const editEmpleado = async (req, res) => {
 
 export const deleteEmpleado = async (req, res) => {
   const { id } = req.params
-  const { rowCount } = await pool.query(
+  const { rows, rowCount } = await pool.query(
     "DELETE FROM empleados WHERE id_empleado = $1 RETURNING *",
     [id]
   )
@@ -262,6 +289,9 @@ export const deleteEmpleado = async (req, res) => {
   if (rowCount === 0) {
     return res.status(404).json({ mensaje: "Empleado no encontrado" })
   }
+
+  const empleadoEliminado = rows[0]
+  eliminarEmpleadoJSON(empleadoEliminado.id_empleado)
 
   res.json({
     mensaje: "Empleado eliminado correctamente",

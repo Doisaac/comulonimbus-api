@@ -23,5 +23,6 @@ export default function formatearEmpleado(empleado) {
     },
     estado: empleado.estado,
     fecha_registro: empleado.fecha_registro,
+    bucket_url: empleado.bucket_url,
   }
 }
