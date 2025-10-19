@@ -15,7 +15,8 @@ CREATE TABLE empleados (
   salario_monto NUMERIC(10, 2),
   salario_moneda VARCHAR(10) DEFAULT 'USD',
   estado VARCHAR(20) DEFAULT 'activo',
-  fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  bucket_url VARCHAR(300) DEFAULT NULL
 );
 INSERT INTO empleados (
     nombres,

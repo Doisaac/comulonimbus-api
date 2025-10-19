@@ -15,11 +15,31 @@ CREATE TABLE empleados (
     salario_monto NUMERIC(10,2),
     salario_moneda VARCHAR(10) DEFAULT 'USD',
     estado VARCHAR(20) DEFAULT 'activo',
-    fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    bucket_url VARCHAR(300)
 );
 
 INSERT INTO empleados (
-    nombres,
+    nombres,CREATE TABLE empleados (
+    id_empleado SERIAL PRIMARY KEY,
+    nombres VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    dui VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20) UNIQUE NOT NULL,
+    pais VARCHAR(50),
+    departamento VARCHAR(50),
+    municipio VARCHAR(50),
+    detalle_direccion VARCHAR(255),
+    puesto VARCHAR(100),
+    area_departamento VARCHAR(100),
+    fecha_contratacion DATE,
+    salario_monto NUMERIC(10,2),
+    salario_moneda VARCHAR(10) DEFAULT 'USD',
+    estado VARCHAR(20) DEFAULT 'activo',
+    fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    bucket_url VARCHAR(300)
+);
     apellidos,
     dui,
     email,
