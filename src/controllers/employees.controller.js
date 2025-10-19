@@ -148,6 +148,13 @@ export const createEmpleado = async (req, res) => {
       empleado.bucket_url = publicUrl
     }
 
+    // Actualizar JSON con nuevo bucket_url
+    try {
+      publicUrl = await subirEmpleadoJSON(empleado)
+    } catch (err) {
+      console.error("Error actualizando JSON en bucket:", err.message)
+    }
+
     // Éxito
     res.status(201).json({
       mensaje: "Empleado registrado correctamente.",
